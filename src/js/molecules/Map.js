@@ -31,7 +31,7 @@ class Chart extends Component {
 		this.markerLayer = L.featureGroup(
 			data.filter(datum => datum.latlng.length).map(datum => {
 				const circle = {
-					radius: datum.population / biggestPop * 20,
+					radius: datum.population / biggestPop * 30,
 					color: '#FF5349'
 				};
 

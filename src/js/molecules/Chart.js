@@ -51,6 +51,7 @@ class Chart extends Component {
 	filterData(filter) {
 		let data = [].concat(this.props.rawData);
 		let datapoint = 'population';
+
 		switch (filter) {
 			case 'highPop':
 				data = data.sort((a, b) => b.population - a.population).splice(0, 9);
