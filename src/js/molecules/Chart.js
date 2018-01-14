@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import c3 from 'c3';
+import numeral from 'numeral';
 
 class Chart extends Component {
 	state = {
@@ -23,7 +24,7 @@ class Chart extends Component {
 				},
 				y: {
 					tick: {
-						format: y => this.formatNumber(y)
+						format: y => numeral(y).format('0a')
 					}
 				}
 			},
@@ -45,10 +46,6 @@ class Chart extends Component {
 			[this.props.datapoint],
 			data.map(datum => datum[this.state.datapoint || 'population'])
 		);
-	}
-
-	formatNumber(number) {
-		return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	}
 
 	filterData(filter) {

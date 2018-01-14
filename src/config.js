@@ -2,13 +2,36 @@ import uuid from 'uuid';
 
 const config = [
 	{
-		id: uuid.v4()
+		id: uuid.v4(),
+		type: 'map',
+		subComponents: [
+			{
+				id: uuid.v4(),
+				type: 'statBar',
+				datapoints: [
+					{
+						key: 'countries'
+					},
+					{
+						key: 'population'
+					},
+					{
+						key: 'area',
+						postfix: 'square miles'
+					},
+					{
+						key: 'languages'
+					}
+				]
+			}
+		]
 	},
 	{
 		id: uuid.v4(),
 		title: 'Population per Continent',
 		aggregate: 'TotalPerRegion',
 		datapoint: 'Population',
+		type: 'chart',
 		chart: {
 			type: 'bar'
 		}
@@ -18,6 +41,7 @@ const config = [
 		title: 'Population per Country',
 		aggregate: 'TopCountries',
 		datapoint: 'Population',
+		type: 'chart',
 		chart: {
 			type: 'bar',
 			filters: [
