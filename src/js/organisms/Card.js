@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Chart from '../molecules/Chart.js';
 import Map from '../molecules/Map.js';
+import StatBar from '../molecules/StatBar.js';
 
 class Card extends Component {
 	render() {
@@ -12,11 +13,19 @@ class Card extends Component {
 					</header>
 				) : null}
 				<main>
-					{this.props.chart ? (
-						<Chart {...this.props} />
-					) : (
-						<Map {...this.props} />
-					)}
+					{this.props.type === 'chart' ? <Chart {...this.props} /> : null}
+					{this.props.type === 'map' ? <Map {...this.props} /> : null}
+					{this.props.subComponents
+						? this.props.subComponents.map(component => {
+								return component.type === 'statBar' ? (
+									<StatBar
+										key={component.id}
+										data={this.props.rawData}
+										{...component}
+									/>
+								) : null;
+							})
+						: null}
 				</main>
 			</article>
 		);
