@@ -25,7 +25,6 @@ class Chart extends Component {
 
 	drawMarkers() {
 		const data = [].concat(this.state.data);
-		const markers = [];
 		const biggestPop = data.sort((a, b) => b.population - a.population)[0]
 			.population;
 
@@ -37,7 +36,7 @@ class Chart extends Component {
 				};
 
 				return L.circleMarker(
-					{ lat: datum.latlng[0], lng: datum.latlng[1] },
+					{ lat: datum.latlng[0], lng: datum.latlng[1], name: datum.name },
 					circle
 				);
 			})

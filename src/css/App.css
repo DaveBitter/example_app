@@ -38,7 +38,7 @@ main#root > section > article:first-of-type {
 #map-container {
 	height: 40vh;
 	width: 100%;
-	background-color: #d1d5d7;
+	background-color: #212121;
 }
 
 .chart {
