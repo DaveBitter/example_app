@@ -22,7 +22,7 @@ main#root > section > article:first-of-type {
 }
 
 .card {
-	width: calc(100% - 2em);
+	width: calc(100% - 3.5em);
 	margin: 1em;
 	padding: 0.5em;
 	background-color: #212121;
@@ -42,7 +42,7 @@ main#root > section > article:first-of-type {
 }
 
 .chart {
-	margin: 1em;
+	margin: 1em 0em;
 }
 
 .stats-container {
@@ -78,6 +78,7 @@ main#root > section > article:first-of-type {
 
 .tick {
 	fill: #808080;
+	font-size: 80%;
 }
 
 button {
