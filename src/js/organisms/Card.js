@@ -7,7 +7,7 @@ class Card extends Component {
 	render() {
 		return (
 			<article className="card">
-				{this.title ? (
+				{this.props.title ? (
 					<header>
 						<h1>{this.props.title}</h1>
 					</header>

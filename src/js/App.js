@@ -27,6 +27,7 @@ class App extends Component {
 
 				this.setState({ data: data, rawData: countries });
 			} else {
+				console.log('app.js', countries);
 				this.setState({ rawData: countries });
 			}
 		});
@@ -37,7 +38,8 @@ class App extends Component {
 	}
 
 	getTopCountries(countries) {
-		return countries.sort((a, b) => b.population - a.population).splice(0, 9);
+		const data = JSON.parse(JSON.stringify(countries));
+		return data.sort((a, b) => b.population - a.population).splice(0, 9);
 	}
 
 	getTotalPerRegion(countries) {
