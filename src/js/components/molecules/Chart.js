@@ -14,6 +14,7 @@ class Chart extends Component {
   };
 
   componentDidMount() {
+    // Initialize the C3.js chart
     this.chart = c3.generate({
       bindto: this.refs.chart,
       color: {
@@ -49,6 +50,7 @@ class Chart extends Component {
   }
 
   formatData(data) {
+    // Create a dataset with the values for the datapoint in the current state
     return [].concat(
       ['data'],
       data.map(datum => datum[this.state.datapoint || 'population'])
@@ -56,6 +58,8 @@ class Chart extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // Only update the active filter if it is different from the filter in the current state
+    // so the chart doesn't redraw unnecessary
     if (!this.state.activeFilter)
       this.setState({
         activeFilter: nextProps.chart.filters
@@ -65,6 +69,7 @@ class Chart extends Component {
   }
 
   componentDidUpdate() {
+    // Load the data in the chart if it is available
     if (this.props.filteredData[this.state.activeFilter]) {
       this.chart.load({
         columns: [
