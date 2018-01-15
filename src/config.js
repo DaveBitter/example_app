@@ -1,3 +1,7 @@
+/* ====================================================
+	Config file to render all component and subcomponents
+==================================================== */
+
 import uuid from 'uuid';
 
 const config = [

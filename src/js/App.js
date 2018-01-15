@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../css/App.css';
 import config from '../config.js';
 import API from './lib/API.js';
-import Card from './organisms/Card.js';
+import Card from './components/organisms/Card.js';
 
 class App extends Component {
   state = {
