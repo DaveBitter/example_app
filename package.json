@@ -1,22 +1,22 @@
 {
-	"name": "example_project",
-	"version": "0.2.2",
-	"private": true,
-	"dependencies": {
-		"c3": "^0.4.18",
-		"d3": "^4.12.2",
-		"leaflet": "^1.2.0",
-		"numeral": "^2.0.6",
-		"react": "^16.2.0",
-		"react-dom": "^16.2.0",
-		"react-scripts": "1.0.17",
-		"underscore": "^1.8.3",
-		"uuid": "^3.1.0"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test --env=jsdom",
-		"eject": "react-scripts eject"
-	}
+  "name": "example_project",
+  "version": "0.2.3",
+  "private": true,
+  "dependencies": {
+    "c3": "^0.4.18",
+    "d3": "^4.12.2",
+    "leaflet": "^1.2.0",
+    "numeral": "^2.0.6",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.0.17",
+    "underscore": "^1.8.3",
+    "uuid": "^3.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
 }
