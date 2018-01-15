@@ -3,143 +3,115 @@ import c3 from 'c3';
 import numeral from 'numeral';
 
 class Chart extends Component {
-	state = {
-		data: null
-	};
+  state = {
+    activeFilter: null,
+    datapoint: null
+  };
 
-	componentDidMount() {
-		this.chart = c3.generate({
-			bindto: this.refs.chart,
-			color: {
-				pattern: ['#FF5349', '#292C44', '#18CDCA', '#4F80E1', '#4F80E1']
-			},
-			axis: {
-				x: {
-					type: 'category',
-					categories: [],
-					tick: {
-						format: x =>
-							this.state.data[x].alpha3Code || this.state.data[x].region
-					}
-				},
-				y: {
-					tick: {
-						format: y => numeral(y).format('0a')
-					}
-				}
-			},
-			data: {
-				type: this.props.chart.type || 'bar',
-				columns: []
-			},
-			legend: {
-				show: false
-			},
-			tooltip: {
-				show: false
-			}
-		});
-	}
+  componentDidMount() {
+    this.chart = c3.generate({
+      bindto: this.refs.chart,
+      color: {
+        pattern: ['#FF5349', '#292C44', '#18CDCA', '#4F80E1', '#4F80E1']
+      },
+      axis: {
+        x: {
+          type: 'category',
+          categories: [],
+          tick: {
+            format: x =>
+              this.props.filteredData[this.state.activeFilter][x].alpha3Code ||
+              this.props.filteredData[this.state.activeFilter][x].region
+          }
+        },
+        y: {
+          tick: {
+            format: y => numeral(y).format('0a')
+          }
+        }
+      },
+      data: {
+        type: this.props.chart.type || 'bar',
+        columns: []
+      },
+      legend: {
+        show: false
+      },
+      tooltip: {
+        show: false
+      }
+    });
+  }
 
-	formatData(data) {
-		return [].concat(
-			[this.props.datapoint],
-			data.map(datum => datum[this.state.datapoint || 'population'])
-		);
-	}
+  formatData(data) {
+    return [].concat(
+      ['data'],
+      data.map(datum => datum[this.state.datapoint || 'population'])
+    );
+  }
 
-	filterData(filter) {
-		let data = [].concat(this.props.rawData);
-		let datapoint = 'population';
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.activeFilter)
+      this.setState({
+        activeFilter: nextProps.chart.filters
+          ? nextProps.chart.filters[0].key
+          : nextProps.aggregate
+      });
+  }
 
-		switch (filter) {
-			case 'highPop':
-				data = data.sort((a, b) => b.population - a.population).splice(0, 9);
-				break;
-			case 'lowPop':
-				data = data.sort((a, b) => a.population - b.population).splice(0, 9);
-				break;
-			case 'highDense':
-				data = data
-					.filter(datum => datum.area)
-					.map(datum =>
-						Object.assign(datum, { density: datum.population / datum.area })
-					)
-					.sort((a, b) => b.density - a.density)
-					.splice(0, 9);
-				datapoint = 'density';
-				break;
-			case 'lowDense':
-				data = data
-					.filter(datum => datum.area)
-					.map(datum =>
-						Object.assign(datum, { density: datum.population / datum.area })
-					)
-					.sort((a, b) => a.population / a.area - b.population / b.area)
-					.splice(0, 9);
-				datapoint = 'density';
-				break;
-			default:
-				break;
-		}
-		this.setState({ data, datapoint, activeFilter: filter });
-	}
+  componentDidUpdate() {
+    if (this.props.filteredData[this.state.activeFilter]) {
+      this.chart.load({
+        columns: [
+          this.formatData(this.props.filteredData[this.state.activeFilter])
+        ],
+        axis: {
+          x: {
+            categories: this.props.filteredData[this.state.activeFilter].map(
+              datum => datum.alpha3Code
+            )
+          }
+        }
+      });
+    }
+  }
 
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.data !== this.state.data) {
-			this.setState({
-				data: nextProps.data
-			});
-		}
-
-		if (nextProps.chart.filters) {
-			this.setState({
-				activeFilter: nextProps.chart.filters[0].key
-			});
-		}
-	}
-
-	componentDidUpdate() {
-		if (this.state.data) {
-			this.chart.load({
-				columns: [this.formatData(this.state.data)],
-				axis: {
-					x: {
-						categories: this.state.data.map(datum => datum.alpha3Code)
-					}
-				}
-			});
-		}
-	}
-
-	render() {
-		return (
-			<section>
-				<article>
-					<div className="chart" ref="chart" />
-				</article>
-				<article>
-					<div className="filters">
-						{this.props.chart.filters
-							? this.props.chart.filters.map(filter => {
-									return (
-										<button
-											key={filter.key}
-											className={
-												this.state.activeFilter === filter.key ? 'active' : ''
-											}
-											onClick={() => this.filterData(filter.key)}
-										>
-											{filter.label}
-										</button>
-									);
-								})
-							: null}
-					</div>
-				</article>
-			</section>
-		);
-	}
+  render() {
+    return (
+      <section>
+        <article>
+          <div className="chart" ref="chart" />
+        </article>
+        <article>
+          <div className="filters">
+            {this.props.chart.filters
+              ? this.props.chart.filters.map(filter => {
+                  return (
+                    <button
+                      key={filter.key}
+                      className={
+                        this.state.activeFilter === filter.key ? 'active' : ''
+                      }
+                      onClick={() =>
+                        this.setState(
+                          {
+                            activeFilter: filter.key,
+                            datapoint: filter.datapoint || 'population'
+                          },
+                          () => this.props.filterData(filter.key)
+                        )
+                      }
+                    >
+                      {filter.label}
+                    </button>
+                  );
+                })
+              : null}
+          </div>
+        </article>
+      </section>
+    );
+  }
 }
 
 export default Chart;

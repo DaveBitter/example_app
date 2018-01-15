@@ -5,75 +5,105 @@ import API from './lib/API.js';
 import Card from './organisms/Card.js';
 
 class App extends Component {
-	state = {
-		data: {},
-		rawData: []
-	};
+  state = {
+    rawData: [],
+    filteredData: {}
+  };
 
-	componentWillMount() {
-		API.getCities()
-			.then(data => {
-				if (data) this.handleData(data);
-			})
-			.catch(err => console.error(err));
-	}
+  componentWillMount() {
+    API.getCities()
+      .then(data => {
+        if (data) this.handleData(data);
+      })
+      .catch(err => console.error(err));
+  }
 
-	handleData(countries) {
-		config.forEach(card => {
-			if (card.chart) {
-				const data = Object.assign(this.state.data, {});
+  handleData(countries) {
+    this.setState({ rawData: countries }, () => {
+      config.forEach(card => {
+        if (card.chart) this.filterData(card.aggregate);
+      });
+    });
+  }
 
-				data[card.aggregate] = this[`get${card.aggregate}`](countries);
+  getTotal(countries) {
+    return countries.reduce((total, next) => total + next.population, 0);
+  }
 
-				this.setState({ data: data, rawData: countries });
-			} else {
-				console.log('app.js', countries);
-				this.setState({ rawData: countries });
-			}
-		});
-	}
+  filterData(filter) {
+    let data = [].concat(this.state.rawData);
+    let filteredData = Object.assign(this.state.filteredData, {});
 
-	getTotal(countries) {
-		return countries.reduce((total, next) => total + next.population, 0);
-	}
+    switch (filter) {
+      case 'totalPerRegion':
+        const regions = {};
+        data.forEach(datum => {
+          if (regions[datum.region]) {
+            regions[datum.region].push(datum);
+          } else {
+            regions[datum.region] = [datum];
+          }
+        });
 
-	getTopCountries(countries) {
-		const data = JSON.parse(JSON.stringify(countries));
-		return data.sort((a, b) => b.population - a.population).splice(0, 9);
-	}
+        filteredData[filter] = Object.values(regions).map(region => {
+          return {
+            region: region[0].region,
+            population: this.getTotal(region)
+          };
+        });
 
-	getTotalPerRegion(countries) {
-		const regions = {};
-		countries.forEach(country => {
-			if (regions[country.region]) {
-				regions[country.region].push(country);
-			} else {
-				regions[country.region] = [country];
-			}
-		});
+        break;
+      case 'highPop':
+        filteredData[filter] = data
+          .sort((a, b) => b.population - a.population)
+          .splice(0, 9);
+        break;
+      case 'lowPop':
+        filteredData[filter] = data
+          .sort((a, b) => a.population - b.population)
+          .splice(0, 9);
+        break;
+      case 'highDense':
+        filteredData[filter] = data
+          .filter(datum => datum.area)
+          .map(datum =>
+            Object.assign(datum, { density: datum.population / datum.area })
+          )
+          .sort((a, b) => b.density - a.density)
+          .splice(0, 9);
+        break;
+      case 'lowDense':
+        filteredData[filter] = data
+          .filter(datum => datum.area)
+          .map(datum =>
+            Object.assign(datum, { density: datum.population / datum.area })
+          )
+          .sort((a, b) => a.density - b.density)
+          .splice(0, 9);
+        break;
+      default:
+        break;
+    }
 
-		return Object.values(regions).map(region => {
-			return {
-				region: region[0].region,
-				population: this.getTotal(region)
-			};
-		});
-	}
+    this.setState({ data, filteredData });
+  }
 
-	render() {
-		return (
-			<section>
-				{config.map(card => (
-					<Card
-						key={card.id}
-						data={this.state.data[card.aggregate]}
-						rawData={this.state.rawData}
-						{...card}
-					/>
-				))}
-			</section>
-		);
-	}
+  render() {
+    return (
+      <section>
+        {config.map(card => (
+          <Card
+            key={card.id}
+            datapoint={this.state.datapoint}
+            rawData={this.state.rawData}
+            filteredData={this.state.filteredData}
+            filterData={filter => this.filterData(filter)}
+            {...card}
+          />
+        ))}
+      </section>
+    );
+  }
 }
 
 export default App;
