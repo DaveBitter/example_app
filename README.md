@@ -31,7 +31,7 @@ Finally, open up your browser at
 
 ## Demo
 
-Do you want gain some insights in the world's population? Cool, you can view the demo at [HTTPS://world.davebitter.com](https://world.davebitter.com).
+Do you want gain some insights in the world's population? Cool, you can view the demo at [https://world.davebitter.com](https://world.davebitter.com).
 
 ## Folder structure
 
