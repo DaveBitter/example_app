@@ -1,3 +1,8 @@
+/* =============================================
+	Card component that will render components and
+	sub components based on the config it gets.
+============================================= */
+
 import React, { Component } from 'react';
 import Chart from '../molecules/Chart.js';
 import Map from '../molecules/Map.js';

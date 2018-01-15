@@ -1,3 +1,8 @@
+/* ==============================================================
+	Map component that will render the map based on
+	the props it gets. Leaflet documentation: http://leafletjs.com/
+============================================================== */
+
 import React, { Component } from 'react';
 import L from 'leaflet';
 

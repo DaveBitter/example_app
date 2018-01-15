@@ -1,3 +1,8 @@
+/* =======================================================
+	Chart component that will render a chart based on
+	the props it gets. C3.js documentation: http://c3js.org/
+======================================================= */
+
 import React, { Component } from 'react';
 import c3 from 'c3';
 import numeral from 'numeral';

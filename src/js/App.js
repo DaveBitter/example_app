@@ -1,3 +1,8 @@
+/* ==============================================
+	High order component that handles all logic and
+	passes down all props.
+============================================== */
+
 import React, { Component } from 'react';
 import '../css/App.css';
 import config from '../config.js';
