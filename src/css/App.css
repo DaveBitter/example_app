@@ -46,6 +46,10 @@ main#root > section > article:first-of-type {
   margin: 1em 0em;
 }
 
+.domain {
+  display: none;
+}
+
 .stats-container {
   display: flex;
   justify-content: space-between;
