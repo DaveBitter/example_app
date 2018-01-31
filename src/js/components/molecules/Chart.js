@@ -88,7 +88,7 @@ class Chart extends Component {
 
   render() {
     return (
-      <section>
+      <section className="fade-in-later">
         <article>
           <div className="chart" ref="chart" />
         </article>
