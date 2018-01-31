@@ -65,17 +65,19 @@ class StatBar extends Component {
   render() {
     return (
       <section>
-        <article className="stats-container">
+        <article className="stats-container fade-in-late">
           {this.props.datapoints.map(datapoint => {
             return (
               <div key={datapoint.key} className="stat">
                 <label>{datapoint.key}</label>
-                <span>
+                <span className="fade-in-last">
                   {this.state.stats[datapoint.key]
                     ? numeral(this.state.stats[datapoint.key]).format('0a')
                     : '-'}
                 </span>
-                {datapoint.postfix ? <sup>{datapoint.postfix}</sup> : null}
+                {datapoint.postfix ? (
+                  <sup className="fade-in-last">{datapoint.postfix}</sup>
+                ) : null}
               </div>
             );
           })}

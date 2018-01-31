@@ -11,7 +11,7 @@ import StatBar from '../molecules/StatBar.js';
 class Card extends Component {
   render() {
     return (
-      <article className="card">
+      <article className="card fade-in">
         {this.props.title ? (
           <header>
             <h1>{this.props.title}</h1>

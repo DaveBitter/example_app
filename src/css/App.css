@@ -5,7 +5,9 @@ body {
   display: flex;
   justify-content: space-around;
   background-color: #0e0e0e;
+  background-image: linear-gradient(to top, #0e0e0e 0%, #1d1d1d 100%);
   display: flex;
+  min-height: 100vh;
 }
 
 main#root {
@@ -32,8 +34,10 @@ main#root > section > article:first-of-type {
 
 .card h1 {
   margin: 0;
-  color: #c1c1c0;
-  padding-bottom: 0.2em;
+  color: #9c9c9c;
+  padding: 0.5em 0;
+  text-align: center;
+  transition: all 100ms ease-out;
 }
 
 #map-container {
@@ -107,7 +111,8 @@ button.active {
 
 @media (min-width: 900px) {
   body {
-    margin-top: 1em;
+    padding-top: 1em;
+    box-sizing: border-box;
   }
 
   main#root > section {
@@ -123,12 +128,71 @@ button.active {
     width: calc(50% - 2em);
   }
 
+  .card h1 {
+    text-align: left;
+  }
+
   .stat label {
     font-size: 1vw;
   }
 
   .stat span {
     font-size: 2.5vw;
+  }
+}
+
+.fade-in {
+  animation-delay: 250ms;
+  animation-duration: 600ms;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+}
+
+.fade-in-late {
+  animation-delay: 500ms;
+  animation-duration: 250ms;
+  animation-fill-mode: both;
+  animation-name: fadeInLate;
+}
+
+.fade-in-last {
+  animation-delay: 600ms;
+  animation-duration: 150ms;
+  animation-fill-mode: both;
+  animation-name: fadeInLast;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInLate {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -20%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInLast {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 5%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 
